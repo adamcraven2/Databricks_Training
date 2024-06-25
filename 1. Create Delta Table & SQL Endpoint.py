@@ -1,10 +1,13 @@
 # Databricks notebook source
 # List secrets created with API
-dbutils.secrets.list('new-scope')
+dbutils.secrets.list('demo-scope')
 
 # COMMAND ----------
 
-storage_account_key = dbutils.secrets.get(scope="new-scope", key="sa-key")
+# Get and store secret in variable
+storage_account_key = dbutils.secrets.get(scope="demo-scope", key="sa-key")
+
+# COMMAND ----------
 
 # Access data lake by account key
 spark.conf.set(
@@ -36,21 +39,14 @@ df.write.format("delta").save("abfss://delta-tables@dlengineerpractice.dfs.core.
 
 # MAGIC %sql
 # MAGIC -- Create Catalog container
-# MAGIC CREATE DATABASE DataEngineerTest;
+# MAGIC CREATE DATABASE IF NOT EXISTS DataEngineerTest;
 
 # COMMAND ----------
 
 # MAGIC %sql 
 # MAGIC -- Create tables as select to store data from temp table
-# MAGIC CREATE TABLE DataEngineerTest.Airplanes 
+# MAGIC CREATE TABLE IF NOT EXISTS DataEngineerTest.Airplane_Passengers
 # MAGIC AS 
 # MAGIC SELECT *
 # MAGIC -- Select from temp table which was created from initial dataframe
 # MAGIC FROM myData
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC -- Select data from table created above
-# MAGIC SELECT *
-# MAGIC FROM dataengineertest.airplanes
