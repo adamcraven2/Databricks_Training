@@ -1,8 +1,15 @@
 # Databricks notebook source
+# List secrets created with API
+dbutils.secrets.list('new-scope')
+
+# COMMAND ----------
+
+storage_account_key = dbutils.secrets.get(scope="new-scope", key="sa-key")
+
 # Access data lake by account key
 spark.conf.set(
     "fs.azure.account.key.dlengineerpractice.dfs.core.windows.net",
-    "")
+    storage_account_key)
 
 # COMMAND ----------
 
