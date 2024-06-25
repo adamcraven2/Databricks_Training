@@ -34,6 +34,42 @@ dbutils.fs.ls("abfss://data@dlengineerpractice.dfs.core.windows.net/")
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC -- Insert new row into Manged table
+# MAGIC INSERT INTO DataEngineerTest.Airplane_Passengers
+# MAGIC VALUES (150001, 'Female', 27, 'Returning', 'Business', 'Business', 250, 10, 10, 'Satisfied')
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- Select new rowb
+# MAGIC SELECT *
+# MAGIC FROM dataengineertest.airplane_passengers
+# MAGIC WHERE ID = 150001
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- Show transaction history of table
+# MAGIC DESCRIBE HISTORY dataengineertest.airplane_passengers
+# MAGIC
+# MAGIC
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT *
+# MAGIC FROM dataengineertest.airplane_passengers@v1 -- Time travel back to previous versions with @v{version_number}
+# MAGIC WHERE ID = 150001
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC -- Revert back to previous state
+# MAGIC RESTORE dataengineertest.airplane_passengers TO VERSION AS OF 0
+
+# COMMAND ----------
+
 # Create dataframe from catalog table
 airline_data = spark.table("dataengineertest.airplane_passengers")
 # Only show 100 rows
@@ -65,4 +101,5 @@ satisfied_eco_passengers_data.display()
 
 # COMMAND ----------
 
+# Create delta table from CSV and add the path
 satisfied_eco_passengers_data.write.format('delta').saveAsTable('dataengineertest.satisfied_eco_passengers', path='abfss://delta-tables@dlengineerpractice.dfs.core.windows.net/satisfied_eco_passengers')
