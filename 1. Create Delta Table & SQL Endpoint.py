@@ -1,11 +1,11 @@
 # Databricks notebook source
-# List secrets created with API
-dbutils.secrets.list('demo-scope')
+# # List secrets created with API
+# dbutils.secrets.list('demo-scope')
 
 # COMMAND ----------
 
 # Get and store secret in variable
-storage_account_key = dbutils.secrets.get(scope="demo-scope", key="sa-key")
+# storage_account_key = dbutils.secrets.get(scope="demo-scope", key="sa-key")
 
 # COMMAND ----------
 
